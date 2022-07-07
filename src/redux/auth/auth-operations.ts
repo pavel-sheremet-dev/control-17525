@@ -1,8 +1,7 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { SignInUser, User } from 'redux/types';
 import { RootState } from 'redux/store';
-// import { IUserInitialState, User } from 'redux/types';
 
 const SIGN_UP_ENDPOINT = 'api/users/signup';
 const SIGN_IN_ENDPOINT = 'api/users/login';
@@ -42,13 +41,16 @@ const signUp = createAsyncThunk<
   }
 >('auth/signUp', async (credentials, thunkAPI) => {
   try {
-    const { data } = await axios.post(SIGN_UP_ENDPOINT, credentials);
-    return data;
+    const res = (await axios.post(
+      SIGN_UP_ENDPOINT,
+      credentials,
+    )) as AxiosResponse<User>;
+    return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
       thunkAPI.rejectWithValue(error.message);
     }
-    // notify, throw err etc.
+    throw new Error();
   }
 });
 
@@ -60,19 +62,23 @@ const signIn = createAsyncThunk<
   }
 >('auth/logIn', async (credentials, thunkAPI) => {
   try {
-    const { data } = await axios.post(SIGN_IN_ENDPOINT, credentials);
-    token.set(data.token);
-    return data;
+    const res = (await axios.post(
+      SIGN_IN_ENDPOINT,
+      credentials,
+    )) as AxiosResponse<SignInUser>;
+    token.set(res.data.token);
+    return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
       return thunkAPI.rejectWithValue(error.message);
     }
+    throw new Error();
   }
 });
 
 const signOut = createAsyncThunk<
-  any,
-  any,
+  void,
+  unknown,
   {
     rejectValue: string;
   }
@@ -84,6 +90,7 @@ const signOut = createAsyncThunk<
     if (error instanceof AxiosError) {
       return thunkAPI.rejectWithValue(error.message);
     }
+    throw new Error();
   }
 });
 
@@ -104,13 +111,14 @@ const getUser = createAsyncThunk<
   token.set(savedToken);
 
   try {
-    const { data } = await axios.get(GET_USER_ENDPOINT);
-    return data;
+    const res = (await axios.get(GET_USER_ENDPOINT)) as AxiosResponse<User>;
+    return res.data;
   } catch (error) {
     token.unset();
     if (error instanceof AxiosError) {
       return thunkAPI.rejectWithValue(error.message);
     }
+    throw new Error();
   }
 });
 
