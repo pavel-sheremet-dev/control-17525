@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { CSSProp } from "styles/types";
+import styled from 'styled-components';
+import { CSSProp } from 'styles/types';
 
 interface IProps {
   columnDirection: boolean;
@@ -7,7 +7,7 @@ interface IProps {
 
 export const StyledNavigation = styled.nav<IProps>`
   & ul {
-    display: ${({ columnDirection }) => (columnDirection ? "block" : "flex")};
+    display: ${({ columnDirection }) => (columnDirection ? 'block' : 'flex')};
   }
 
   & li:last-child {
@@ -33,6 +33,7 @@ export const StyledNavigation = styled.nav<IProps>`
     &:focus {
       background-color: ${({ theme }) => theme.colors.backgroundColor2};
     }
-    transition: ${({ theme }) => theme.transition(CSSProp.backgroundColor)};
+    transition: ${({ theme }) =>
+      theme.transition({ property: CSSProp.backgroundColor })};
   }
 `;

@@ -1,7 +1,7 @@
-import { createContext } from "react";
-import { ThemeTitle } from "styles/types";
+import { createContext } from 'react';
+import { ThemeTitle } from 'styles/types';
 
-interface IThemeContext {
+export interface IThemeContext {
   theme: ThemeTitle;
   changeTheme(): void;
 }

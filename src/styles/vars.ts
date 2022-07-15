@@ -1,4 +1,4 @@
-import { BreakPoints, CssVars, CSSProp } from "styles/types";
+import { BreakPoints, CssVars, TransitionOptions } from 'styles/types';
 
 export const getCssVariables = (): CssVars => ({
   delay: 250,
@@ -8,6 +8,10 @@ export const getCssVariables = (): CssVars => ({
     tablet: BreakPoints.tablet,
     desktop: BreakPoints.desktop,
   },
-  transition: (property: CSSProp, delay = 250, type = "linear") =>
-    `${property} ${delay}ms ${type}`,
+  transition: ({
+    property,
+    duration = 250,
+    type = 'linear',
+    delay = 0,
+  }: TransitionOptions) => `${property} ${duration}ms ${type} ${delay}ms`,
 });

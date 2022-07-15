@@ -1,12 +1,12 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export enum HeadingTitlesTags {
-  h1 = "h1",
-  h2 = "h2",
-  h3 = "h3",
-  h4 = "h4",
-  h5 = "h5",
-  h6 = "h6",
+  h1 = 'h1',
+  h2 = 'h2',
+  h3 = 'h3',
+  h4 = 'h4',
+  h5 = 'h5',
+  h6 = 'h6',
 }
 
 interface ITitleProps {
@@ -15,6 +15,9 @@ interface ITitleProps {
 }
 
 export const StyledSection = styled.section`
+  /* outline: 1px solid yellow; */
+  border-bottom: 1px solid ${({ theme }) => theme.colors.mainBrandColor};
+  position: relative;
   padding-top: 20px;
   padding-bottom: 20px;
 `;

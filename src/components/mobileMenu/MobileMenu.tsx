@@ -1,12 +1,12 @@
-import IconBtn from "components/common/iconBtn/IconBtn";
-import { useState, useEffect, useContext } from "react";
-import { StyledMobileMenu } from "./MobileMenu.styled";
-import Navigation from "components/navigation/Navigation";
-import { routes } from "routes";
-import { CgClose } from "react-icons/cg";
-import Switch from "components/swith/Switch";
-import { PositionContext } from "context/positionContext";
-import { ThemeContext } from "context/themeContext";
+import IconBtn from 'components/common/iconBtn/IconBtn';
+import { useState, useEffect, useContext } from 'react';
+import { StyledMobileMenu } from './MobileMenu.styled';
+import Navigation from 'components/navigation/Navigation';
+import { routesConfig } from 'routes';
+import { CgClose } from 'react-icons/cg';
+import Switch from 'components/swith/Switch';
+import { PositionContext } from 'context/positionContext';
+import { ThemeContext } from 'context/themeContext';
 
 interface Iprops {
   onClose(cssDelay?: number): Promise<void>;
@@ -30,16 +30,16 @@ const MobileMenu = ({ onClose, showMenu }: Iprops) => {
           iconComponent={<CgClose />}
           disabled={!isOpen}
         />
-        <Navigation items={routes.nav} columnDirection />
+        <Navigation items={routesConfig.routes} columnDirection />
         <Switch
-          title={"Right hand"}
+          title={'Right hand'}
           onClick={toggleHand}
           checked={isRightHand}
         />
         <Switch
-          title={"Dark theme"}
+          title={'Dark theme'}
           onClick={changeTheme}
-          checked={theme === "dark"}
+          checked={theme === 'dark'}
         />
       </div>
       <div className="backdrop" onClick={() => onClose()} />

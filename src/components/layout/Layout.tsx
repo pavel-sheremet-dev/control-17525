@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 
-import { PositionContext } from "context/positionContext";
-import { ThemeContext } from "context/themeContext";
-import { Format, PageFormatContext } from "context/PageFormatContext";
-import { BreakPoints, ThemeTitle } from "styles/types";
+import { PositionContext } from 'context/positionContext';
+import { ThemeContext } from 'context/themeContext';
+import { Format, PageFormatContext } from 'context/PageFormatContext';
+import { BreakPoints, ThemeTitle } from 'styles/types';
 
 const breakPoints = {
   responce: Number.parseInt(BreakPoints.responce),
@@ -17,14 +17,14 @@ interface Iprops {
 }
 
 const Layout = ({ children }: Iprops) => {
-  const [pageFormat, setPageFormat] = useState<null | Format>(null);
+  const [pageFormat, setPageFormat] = useState<Format>(Format.responce);
 
   const [isRightHand, setIsRightHand] = useState(() =>
-    Boolean(localStorage.getItem("right-hand"))
+    Boolean(localStorage.getItem('right-hand')),
   );
 
   const [theme, setTheme] = useState(() => {
-    const ls = localStorage.getItem("theme") ?? ThemeTitle.light;
+    const ls = localStorage.getItem('theme') ?? ThemeTitle.light;
     if (ls === ThemeTitle.light) {
       return ThemeTitle.light;
     } else {
@@ -61,16 +61,16 @@ const Layout = ({ children }: Iprops) => {
         return;
       }
     };
-    window.addEventListener("resize", onHandleResize);
+    window.addEventListener('resize', onHandleResize);
     onHandleResize();
   }, [pageFormat]);
 
   useEffect(() => {
-    localStorage.setItem("right-hand", String(isRightHand));
+    localStorage.setItem('right-hand', String(isRightHand));
   }, [isRightHand]);
 
   useEffect(() => {
-    localStorage.setItem("theme", theme);
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleHand = (value: boolean): void => {
@@ -79,10 +79,10 @@ const Layout = ({ children }: Iprops) => {
 
   const changeTheme = useCallback(
     () =>
-      setTheme((prev) =>
-        prev === ThemeTitle.light ? ThemeTitle.dark : ThemeTitle.light
+      setTheme(prev =>
+        prev === ThemeTitle.light ? ThemeTitle.dark : ThemeTitle.light,
       ),
-    []
+    [],
   );
 
   return (

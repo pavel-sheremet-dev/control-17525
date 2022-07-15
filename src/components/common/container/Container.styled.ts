@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledContainer = styled.div`
-  outline: 1px solid yellow;
+  /* outline: 1px solid green; */
   position: relative;
   margin: 0 auto;
   padding: 0 15px;

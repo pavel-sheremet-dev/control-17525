@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { CSSProp } from "styles/types";
+import styled from 'styled-components';
+import { CSSProp } from 'styles/types';
 
 export const StyledButton = styled.button`
   display: flex;
@@ -15,8 +15,9 @@ export const StyledButton = styled.button`
   &:focus {
     background-color: ${({ theme }) => theme.colors.backgroundColor2};
   }
-  transition: ${({ theme }) => theme.transition(CSSProp.backgroundColor)},
-    ${({ theme }) => theme.transition(CSSProp.transform)};
+  transition: ${({ theme }) =>
+      theme.transition({ property: CSSProp.backgroundColor })},
+    ${({ theme }) => theme.transition({ property: CSSProp.transform })};
 
   & svg {
     width: 30px;

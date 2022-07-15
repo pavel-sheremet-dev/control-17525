@@ -1,6 +1,8 @@
-import Container from "components/common/container/Container";
+import Container from 'components/common/container/Container';
+import { Format, PageFormatContext } from 'context/PageFormatContext';
+import { useContext } from 'react';
 
-import { HeadingTitlesTags, StyledSection, Title } from "./Section.styled";
+import { HeadingTitlesTags, StyledSection, Title } from './Section.styled';
 
 interface IProps {
   title: string;
@@ -8,6 +10,7 @@ interface IProps {
   isHidden?: boolean;
   style?: React.CSSProperties;
   children?: React.ReactNode;
+  background?: React.ReactNode;
 }
 
 const Section = ({
@@ -16,7 +19,13 @@ const Section = ({
   titleLevel,
   isHidden = false,
   style = {},
+  background,
 }: IProps) => {
+  const pageFormat = useContext(PageFormatContext);
+
+  const isMobile =
+    pageFormat === Format.mobile || pageFormat === Format.responce;
+
   return (
     <StyledSection style={style}>
       <Container>
@@ -28,6 +37,7 @@ const Section = ({
 
         {children}
       </Container>
+      {background && !isMobile && <>{background}</>}
     </StyledSection>
   );
 };

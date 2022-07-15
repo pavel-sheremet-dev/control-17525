@@ -1,8 +1,9 @@
-import { RoutesConfigObject } from "routes/types";
-import { StyledNavigation } from "./Navigation.styled";
+import { NavLink } from 'react-router-dom';
+import { IRouteDataObject } from 'routes/types';
+import { StyledNavigation } from './Navigation.styled';
 
 interface IProps {
-  items: RoutesConfigObject;
+  items: IRouteDataObject[];
   listStyles?: React.CSSProperties;
   navStyles?: React.CSSProperties;
   columnDirection?: boolean;
@@ -17,9 +18,9 @@ const Navigation = ({
   return (
     <StyledNavigation style={navStyles} columnDirection={columnDirection}>
       <ul style={listStyles}>
-        {Object.keys(items).map((navItem) => (
-          <li key={items[navItem].id}>
-            <a href="/">{items[navItem].title}</a>
+        {items.map(navItem => (
+          <li key={navItem.id}>
+            <NavLink to={navItem.absolutePath}>{navItem.title}</NavLink>
           </li>
         ))}
       </ul>

@@ -1,1 +1,1 @@
-export * as routes from "./config";
+export * as routesConfig from './config';
