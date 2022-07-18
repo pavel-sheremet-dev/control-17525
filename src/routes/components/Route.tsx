@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Loader } from 'components/common/loader/Loader';
 
 import NotAuthRoute from './NotAuthRoute';
+import { getRouteById } from 'routes/config';
+import { RoutesId } from 'routes/types';
 
 // import NotAuthRoute from './NotAuthRoute';
 
@@ -21,6 +23,11 @@ const NotFoundPage = lazy(
 const SignUpPage = lazy(
   () =>
     import('pages/signUpPage/SignUpPage' /* webpackChunkName: "SignUpPage" */),
+);
+
+const SignInPage = lazy(
+  () =>
+    import('pages/signInPage/signInPage' /* webpackChunkName: "SignInPage" */),
 );
 
 // const LibraryPage = lazy(() =>
@@ -56,22 +63,15 @@ const RoutesComponent = () => {
             </NotAuthRoute>
           }
         />
-        {/* <Route
-          index={nav}
+
+        <Route
+          path={getRouteById(RoutesId.SIGN_IN).path}
           element={
-            <NotAuthRoute redirectPath={library.absolutePath}>
-              <SignUpPage />
+            <NotAuthRoute redirectPath={'/abc'}>
+              <SignInPage />
             </NotAuthRoute>
           }
-        /> */}
-        {/* <Route
-          path={login.path}
-          element={
-            <NotAuthRoute redirectPath={library.absolutePath}>
-              <LoginPage />
-            </NotAuthRoute>
-          }
-        /> */}
+        />
 
         {/* PRIVATE */}
         {/* <Route

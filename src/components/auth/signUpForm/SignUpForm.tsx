@@ -8,7 +8,12 @@ import { authOperations, authSelectors } from 'redux/auth';
 import InputField from '../inputField/InputField';
 // import { SignButton } from 'components/reusableComponents/buttons/Buttons.styled';
 
-import FormState from './FormState';
+// import FormState, { FormState2, normalizeValuesByKeys } from './FormState';
+import {
+  FormState2,
+  normalizeValuesByKeys,
+  whriteValuesToStorage,
+} from './FormState';
 import { getValueFromStorage } from '../helpers';
 import { ISignUpState, LSSignUpState, StorageFormsKeys } from '../types';
 import { FormStyled } from './SignUpForm.styled';
@@ -120,7 +125,18 @@ const SignUpForm = () => {
             <BtnStyled type="submit" disabled={loading}>
               Registration
             </BtnStyled>
-            <FormState />
+            <FormState2
+              normalizeValues={normalizeValuesByKeys<ISignUpState>([
+                'name',
+                'email',
+                'password',
+              ])}
+              whriteValuesToStorage={whriteValuesToStorage<ISignUpState>(
+                StorageFormsKeys.SIGN_UP,
+                ['name', 'email'],
+              )}
+            />
+            {/* <FormState /> */}
           </FormStyled>
         )}
       </Formik>

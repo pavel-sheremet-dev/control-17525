@@ -35,7 +35,7 @@ export const routes: IRouteDataObject[] = [
     accessType: Access.NOT_AUTH,
     renderOn: [Format.responce, Format.mobile, Format.desktop, Format.tablet],
     title: 'Sign up',
-    path: '',
+    path: '/',
     absolutePath: '/',
   },
 ];
