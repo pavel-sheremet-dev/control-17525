@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
-import { Formik, FormikProps } from 'formik';
-import * as Yup from 'yup';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
+// import * as Yup from 'yup';
 
 import { authOperations, authSelectors } from 'redux/auth';
 
 import { BtnStyled } from 'components/reusableComponents/textBtn/TextBtn.styled';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { ISignInState, LSSigInState, StorageFormsKeys } from '../types';
+import { ISignInState, StorageFormsKeys } from '../types';
 import { getValueFromStorage } from '../helpers';
-import {
-  FormState2,
-  normalizeValuesByKeys,
-  whriteValuesToStorage,
-} from '../signUpForm/FormState';
+
 import InputField from '../inputField/InputField';
 import { FormStyled } from '../signUpForm/SignUpForm.styled';
+import FormState, { formFieldsConfig } from '../FormState';
 
-const initialStorageState: LSSigInState = { email: '' };
+const fieldsOptions = formFieldsConfig.signIn;
+const initialStorageState = formFieldsConfig.signIn.initialStorageState;
 
 const SignInForm = () => {
   const [initialValues, setInitialValues] = useState(() =>
-    getValueFromStorage<StorageFormsKeys, LSSigInState>(
+    getValueFromStorage<StorageFormsKeys, Partial<ISignInState>>(
       StorageFormsKeys.SIGN_IN,
       initialStorageState,
     ),
@@ -30,23 +28,9 @@ const SignInForm = () => {
 
   return (
     <Formik
-      initialValues={{ ...initialValues, password: '' }}
-      validationSchema={Yup.object({
-        email: Yup.string()
-          .min(7, 'min 7')
-          .max(63, 'max 63')
-          .email('error mail')
-          .required('Field is required'),
-        password: Yup.string()
-          .min(8, 'min 7')
-          .max(30, 'max 30')
-          .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_]{8,30}$/,
-            'error password',
-          )
-          .required('Field is required'),
-      })}
-      onSubmit={(values, obj) => {
+      initialValues={{ ...fieldsOptions.initialValues, ...initialValues }}
+      validationSchema={fieldsOptions.validationSchema}
+      onSubmit={(values, obj: FormikHelpers<ISignInState>) => {
         const { email, password } = values;
         const credentials = {
           email: email.trim().toLowerCase(),
@@ -54,7 +38,7 @@ const SignInForm = () => {
         };
         dispatch(authOperations.signIn(credentials));
         obj.setSubmitting(false);
-        sessionStorage.removeItem('auth-form-signin');
+        // sessionStorage.removeItem('auth-form-signin');
         setInitialValues(initialStorageState);
         obj.resetForm();
       }}
@@ -78,16 +62,7 @@ const SignInForm = () => {
           <BtnStyled type="submit" disabled={loading}>
             Login
           </BtnStyled>
-          <FormState2
-            normalizeValues={normalizeValuesByKeys<ISignInState>([
-              'email',
-              'password',
-            ])}
-            whriteValuesToStorage={whriteValuesToStorage<ISignInState>(
-              StorageFormsKeys.SIGN_IN,
-              ['email'],
-            )}
-          />
+          <FormState fieldsOptions={fieldsOptions} />
         </FormStyled>
       )}
     </Formik>

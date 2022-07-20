@@ -31,7 +31,10 @@ export const getValueFromStorage = <T = StorageFormsKeys, U = {}>(
 ): U => {
   if (typeof key === 'string') {
     const unParsedInitialState = sessionStorage.getItem(key) ?? '';
-    return parseState<U>(unParsedInitialState, initialStogateValue);
+    return {
+      ...initialStogateValue,
+      ...parseState<U>(unParsedInitialState, initialStogateValue),
+    };
   } else {
     throw new Error('Key must be a string');
   }

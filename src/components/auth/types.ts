@@ -1,6 +1,4 @@
 export enum StorageFormsKeys {
-  USER_NAME = 'username',
-  USER_EMAIL = 'usermail',
   SIGN_UP = 'auth-form-signup',
   SIGN_IN = 'auth-form-signin',
 }
@@ -21,9 +19,3 @@ export interface ISignInState {
 }
 
 export type LSSigInState = Pick<ISignUpState, 'email'>;
-
-export const isSignUpState = (
-  values: ISignUpState | ISignInState,
-): values is ISignUpState => {
-  return 'name' in values;
-};

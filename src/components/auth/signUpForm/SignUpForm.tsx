@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Formik, FormikHelpers, FormikProps } from 'formik';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
@@ -8,78 +8,73 @@ import { authOperations, authSelectors } from 'redux/auth';
 import InputField from '../inputField/InputField';
 // import { SignButton } from 'components/reusableComponents/buttons/Buttons.styled';
 
-// import FormState, { FormState2, normalizeValuesByKeys } from './FormState';
-import {
-  FormState2,
-  normalizeValuesByKeys,
-  whriteValuesToStorage,
-} from './FormState';
+import FormState, { formFieldsConfig } from '../FormState';
 import { getValueFromStorage } from '../helpers';
-import { ISignUpState, LSSignUpState, StorageFormsKeys } from '../types';
+import { ISignUpState, StorageFormsKeys } from '../types';
 import { FormStyled } from './SignUpForm.styled';
 import InputCheckbox from '../inputCheckbox/InputCheckbox';
 import { BtnStyled } from 'components/reusableComponents/textBtn/TextBtn.styled';
 
-const initialStorageState: LSSignUpState = { name: '', email: '' };
+const fieldsOptions = formFieldsConfig.signUp;
 
 const SignUpForm = () => {
-  const [initialValues, setInitialValues] = useState(() =>
-    getValueFromStorage<StorageFormsKeys, LSSignUpState>(
+  const [storageValues, setStorageValues] = useState(() =>
+    getValueFromStorage<StorageFormsKeys, Partial<ISignUpState>>(
       StorageFormsKeys.SIGN_UP,
-      initialStorageState,
+      fieldsOptions.initialStorageState,
     ),
   );
 
   const loading = useAppSelector(authSelectors.getLoading);
   const dispatch = useAppDispatch();
 
+  // const validationSchema: Yup.SchemaOf<ISignUpState> = Yup.object().shape({
+  //   name: Yup.string()
+  //     .min(3, 'min 3')
+  //     .max(30, 'max 30')
+  //     .matches(/^[А-Яа-яґҐЁёІіЇїЄє'’ʼ\s\w-]{3,30}$/)
+  //     .required('Field is required'),
+  //   email: Yup.string()
+  //     .min(7, 'min 7')
+  //     .max(63, 'max 63')
+  //     .email('error mail')
+  //     .required('Field is required'),
+  //   password: Yup.string()
+  //     .min(8, 'min 7')
+  //     .max(30, 'max 30')
+  //     .matches(
+  //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_]{8,30}$/,
+  //       'error password',
+  //     )
+  //     .required('Field is required'),
+  //   passwordConfirmation: Yup.string()
+  //     .oneOf([Yup.ref('password'), null], 'error conf password')
+  //     .required('Field is required'),
+  //   agreement: Yup.boolean()
+  //     .oneOf([true], 'You can agree with Privacy Policy')
+  //     .required(),
+  // });
+
   return (
     <>
       <Formik
         initialValues={{
-          ...initialValues,
-          password: '',
-          passwordConfirmation: '',
-          agreement: false,
+          ...fieldsOptions.initialValues,
+          ...storageValues,
         }}
-        validationSchema={Yup.object({
-          name: Yup.string()
-            .min(3, 'min 3')
-            .max(30, 'max 30')
-            .matches(/^[А-Яа-яґҐЁёІіЇїЄє'’ʼ\s\w-]{3,30}$/)
-            .required('Field is required'),
-          email: Yup.string()
-            .min(7, 'min 7')
-            .max(63, 'max 63')
-            .email('error mail')
-            .required('Field is required'),
-          password: Yup.string()
-            .min(8, 'min 7')
-            .max(30, 'max 30')
-            .matches(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_]{8,30}$/,
-              'error password',
-            )
-            .required('Field is required'),
-          passwordConfirmation: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'error conf password')
-            .required('Field is required'),
-          agreement: Yup.boolean()
-            .oneOf([true], 'You can agree with Privacy Policy')
-            .required(),
-        })}
-        onSubmit={(values, obj: FormikHelpers<ISignUpState>) => {
+        validationSchema={fieldsOptions.validationSchema}
+        onSubmit={(values, helper: FormikHelpers<ISignUpState>) => {
           const { name, email, password } = values;
           const credentials = {
             name: name.trim(),
             email: email.trim().toLowerCase(),
-            password,
+            password: password,
           };
           dispatch(authOperations.signUp(credentials));
-          obj.setSubmitting(false);
-          sessionStorage.removeItem('auth-form-signup');
-          setInitialValues(initialStorageState);
-          obj.resetForm();
+          helper.setSubmitting(false);
+          sessionStorage.removeItem(StorageFormsKeys.SIGN_UP);
+          setStorageValues(fieldsOptions.initialStorageState);
+          helper.resetForm();
         }}
         enableReinitialize
       >
@@ -93,7 +88,6 @@ const SignUpForm = () => {
               placeholder="..."
               autoComplete="off"
             />
-
             <InputField
               label={'Email'}
               required
@@ -125,18 +119,7 @@ const SignUpForm = () => {
             <BtnStyled type="submit" disabled={loading}>
               Registration
             </BtnStyled>
-            <FormState2
-              normalizeValues={normalizeValuesByKeys<ISignUpState>([
-                'name',
-                'email',
-                'password',
-              ])}
-              whriteValuesToStorage={whriteValuesToStorage<ISignUpState>(
-                StorageFormsKeys.SIGN_UP,
-                ['name', 'email'],
-              )}
-            />
-            {/* <FormState /> */}
+            <FormState fieldsOptions={fieldsOptions} />
           </FormStyled>
         )}
       </Formik>
