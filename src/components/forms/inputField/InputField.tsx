@@ -34,11 +34,6 @@ const InputField = ({ label, required, ...props }: InputFieldType) => {
     ReactTooltip.show(inputRef.current as Element);
   };
 
-  // const handleHide = (): void => {
-  //   setShowTooltip(false);
-  //   setTimeout(() => showTooltip(true), 0);
-  // };
-
   useEffect(() => {
     if (meta.touched && meta.error) {
       handleShow();

@@ -9,7 +9,7 @@ import { ThemeContext } from 'context/themeContext';
 // import Section from 'components/common/section/Section';
 // import { HeadingTitlesTags } from 'components/common/section/Section.styled';
 import MainComponent from 'components/main/Main';
-// import ReportForm from "components/reportForm/ReportForm";
+// import ReportForm from 'components/reportForm/ReportForm';
 import { IThemeContext } from 'context/themeContext';
 
 const App = () => {

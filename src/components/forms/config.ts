@@ -1,30 +1,26 @@
-import { useEffect } from 'react';
-import { useFormikContext } from 'formik';
+import {
+  ISignInState,
+  ISignUpState,
+  StorageFormsKeys,
+} from 'components/auth/types';
 import * as Yup from 'yup';
 
-import { ISignInState, ISignUpState, StorageFormsKeys } from './types';
-import { SchemaOf } from 'yup';
+export interface IFormFieldsConfigObject<T> {
+  initialValues: T;
+  validationSchema: Yup.SchemaOf<T>;
+  normalizeFields: (keyof T)[];
+  storageKey: StorageFormsKeys;
+  initialStorageState: Partial<T>;
+}
 
 export type Fields = ISignUpState & ISignInState;
 // type ObjectType = {
 //   [x in keyof Fields]: string;
 // };
 
-interface IFormFieldsConfigObject<T> {
-  initialValues: T;
-  validationSchema: SchemaOf<T>;
-  normalizeFields: (keyof T)[];
-  storageKey: StorageFormsKeys;
-  initialStorageState: Partial<T>;
-}
-
 interface IFormFieldsConfig {
   signUp: IFormFieldsConfigObject<ISignUpState>;
   signIn: IFormFieldsConfigObject<ISignInState>;
-}
-
-interface IFormStateProps<T> {
-  fieldsOptions: IFormFieldsConfigObject<T>;
 }
 
 export const formFieldsConfig: IFormFieldsConfig = {
@@ -89,6 +85,17 @@ export const formFieldsConfig: IFormFieldsConfig = {
   },
 };
 
+export const normalizeValues = <T extends Partial<Fields>>(
+  { normalizeFields }: IFormFieldsConfigObject<T>,
+  values: T,
+): void => {
+  if (!normalizeFields.length) return;
+
+  normalizeFields.forEach(field => {
+    normalizeValue(field, values);
+  });
+};
+
 const normalizeValue = <T extends Partial<Fields>>(
   value: keyof T,
   values: T,
@@ -119,17 +126,6 @@ const normalizeValue = <T extends Partial<Fields>>(
   }
 };
 
-export const normalizeValues = <T extends Partial<Fields>>(
-  { normalizeFields }: IFormFieldsConfigObject<T>,
-  values: T,
-): void => {
-  if (!normalizeFields.length) return;
-
-  normalizeFields.forEach(field => {
-    normalizeValue(field, values);
-  });
-};
-
 export const whriteValuesToStorage = <T extends Partial<Fields>>(
   { storageKey, initialStorageState }: IFormFieldsConfigObject<T>,
   values: T,
@@ -142,16 +138,3 @@ export const whriteValuesToStorage = <T extends Partial<Fields>>(
 
   sessionStorage.setItem(storageKey, JSON.stringify(storageValues));
 };
-
-const FormState = <T,>({ fieldsOptions }: IFormStateProps<T>): null => {
-  const { values } = useFormikContext<T>();
-
-  useEffect(() => {
-    normalizeValues<T>(fieldsOptions, values);
-    whriteValuesToStorage<T>(fieldsOptions, values);
-  }, [fieldsOptions, values]);
-
-  return null;
-};
-
-export default FormState;

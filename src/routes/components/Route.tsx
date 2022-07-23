@@ -5,6 +5,7 @@ import { Loader } from 'components/common/loader/Loader';
 import NotAuthRoute from './NotAuthRoute';
 import { getRouteById } from 'routes/config';
 import { RoutesId } from 'routes/types';
+import AuthRoute from './AuthRoute';
 
 // import NotAuthRoute from './NotAuthRoute';
 
@@ -28,6 +29,11 @@ const SignUpPage = lazy(
 const SignInPage = lazy(
   () =>
     import('pages/signInPage/signInPage' /* webpackChunkName: "SignInPage" */),
+);
+
+const ReportPage = lazy(
+  () =>
+    import('pages/reportPage/ReportPage' /* webpackChunkName: "ReportPage" */),
 );
 
 // const LibraryPage = lazy(() =>
@@ -74,14 +80,16 @@ const RoutesComponent = () => {
         />
 
         {/* PRIVATE */}
-        {/* <Route
-          path={library.path}
+        <Route
+          path={getRouteById(RoutesId.SEND_REPORT).path}
           element={
-            <AuthRoute redirectPath={login.absolutePath}>
-              <LibraryPage />
+            <AuthRoute
+              redirectPath={getRouteById(RoutesId.SIGN_IN).absolutePath}
+            >
+              <ReportPage />
             </AuthRoute>
           }
-        /> */}
+        />
 
         {/* <Route
           path={training.path}

@@ -5,6 +5,7 @@ export const light: Palette = {
   colors: {
     defaultFontColor: '#000000',
     white: '#ffffff',
+    black: '#000000',
     mainBrandColor: '#3a9563',
     accentMainBrandColor: '#3fa06b',
     secondaryBrandColor: 'green',
@@ -23,8 +24,8 @@ export const light: Palette = {
     color4: '#000000',
     color5: '#000000',
     color6: '#000000',
-    google: 'rgba(150, 150, 150, 0.1)',
-    googleHover: 'rgba(150, 150, 150, 0.2)',
+    google: '#f4f4f4',
+    googleHover: '#efefef',
     googleDisabled: 'rgba(200, 200, 200)',
     inputText: '#000000',
     inputPlaceholder: 'rgba(0, 0, 0, 0.4)',

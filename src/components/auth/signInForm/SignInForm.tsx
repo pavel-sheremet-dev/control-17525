@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Formik, FormikHelpers, FormikProps } from 'formik';
 // import * as Yup from 'yup';
 
@@ -9,9 +9,10 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { ISignInState, StorageFormsKeys } from '../types';
 import { getValueFromStorage } from '../helpers';
 
-import InputField from '../inputField/InputField';
-import { FormStyled } from '../signUpForm/SignUpForm.styled';
-import FormState, { formFieldsConfig } from '../FormState';
+import InputField from 'components/forms/inputField/InputField';
+import FormState from 'components/forms/formState/FormState';
+import { formFieldsConfig } from 'components/forms/config';
+import { FormStyled } from './SignInForm.styled';
 
 const fieldsOptions = formFieldsConfig.signIn;
 const initialStorageState = formFieldsConfig.signIn.initialStorageState;
@@ -23,6 +24,7 @@ const SignInForm = () => {
       initialStorageState,
     ),
   );
+
   const loading = useAppSelector(authSelectors.getLoading);
   const dispatch = useAppDispatch();
 
@@ -62,7 +64,7 @@ const SignInForm = () => {
           <BtnStyled type="submit" disabled={loading}>
             Login
           </BtnStyled>
-          <FormState fieldsOptions={fieldsOptions} />
+          <FormState fieldsOptions={fieldsOptions} followField={'email'} />
         </FormStyled>
       )}
     </Formik>

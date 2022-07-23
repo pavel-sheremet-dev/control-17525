@@ -26,6 +26,7 @@ export type Palette = {
   colors: {
     defaultFontColor: string;
     white: string;
+    black: string;
     mainBrandColor: string;
     accentMainBrandColor: string;
     secondaryBrandColor: string;

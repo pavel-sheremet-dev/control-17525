@@ -1,3 +1,5 @@
+import { CSSProp } from 'styles/types';
+
 import styled from 'styled-components';
 
 interface IInputProps {
@@ -7,25 +9,13 @@ interface IInputProps {
 export const LabelStyled = styled.label`
   display: block;
   width: 100%;
-  margin-bottom: 7px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 12pt;
   line-height: 1.21;
 
-  @media screen and (min-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    font-weight: 500;
-  }
-
-  & .required,
-  & .error {
+  & .required {
     color: ${({ theme }) => theme.colors.required};
-  }
-
-  & .error {
-    display: block;
-    font-size: 12px;
-    line-height: 1.25;
   }
 `;
 
@@ -44,8 +34,13 @@ export const InputStyled = styled.input<IInputProps>`
   background-color: ${({ theme }) => theme.colors.google};
   ${({ isError, theme }) =>
     isError ? ` outline: 1px solid ${theme.colors.required};` : ''};
-
   border: none;
+  transition: ${({ theme }) =>
+    theme.transition({ property: CSSProp.backgroundColor })};
+
+  &:focus {
+    background-color: ${({ theme }) => theme.colors.googleHover};
+  }
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.inputPlaceholder};
@@ -59,5 +54,15 @@ export const InputStyled = styled.input<IInputProps>`
   &[type='password']::placeholder {
     font-family: initial;
     letter-spacing: initial;
+  }
+
+  &[type='number']::-webkit-outer-spin-button,
+  &[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
   }
 `;

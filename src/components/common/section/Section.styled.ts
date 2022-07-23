@@ -18,8 +18,8 @@ export const StyledSection = styled.section`
   /* outline: 1px solid yellow; */
   border-bottom: 1px solid ${({ theme }) => theme.colors.mainBrandColor};
   position: relative;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 `;
 
 export const Title = styled.h2<ITitleProps>`

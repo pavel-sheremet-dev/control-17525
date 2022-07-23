@@ -25,6 +25,10 @@ export const SideBox = styled.div`
     margin-bottom: 20px;
   }
 
+  & .avatar {
+    margin-bottom: auto;
+  }
+
   & .redirect-box {
     margin-top: 20px;
   }
@@ -43,10 +47,10 @@ export const SideBox = styled.div`
 
   &.left {
     display: flex;
+    min-height: 655px;
     flex-direction: column;
     align-items: center;
     flex-shrink: 0;
     background-color: ${({ theme }) => theme.colors.backgroundColor1};
-    padding: 20px 0;
   }
 `;

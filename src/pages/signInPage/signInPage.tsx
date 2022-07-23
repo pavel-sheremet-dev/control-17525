@@ -15,7 +15,8 @@ import { RoutesId } from 'routes/types';
 
 import { getRouteById } from 'routes/config';
 import { ContentBox, SideBox } from 'pages/signUpPage/SignUpPage.styled';
-import SignInForm from 'components/auth/signIn/SignInForm';
+import SignInForm from 'components/auth/signInForm/SignInForm';
+import Avatar from './Avatar';
 
 const SignUpPage = () => {
   const redirectRoute = getRouteById(RoutesId.SIGN_UP);
@@ -33,9 +34,13 @@ const SignUpPage = () => {
     >
       <ContentBox>
         <SideBox className="left">
-          <Suptitle text="Create your account with" className={'sup-title'} />
+          <Suptitle
+            text="Log in to your account with"
+            className={'sup-title'}
+          />
           <GoogleButton className="google" />
           <Separator className="separate" text="or" />
+          <Avatar className="avatar" />
           <SignInForm />
           <RedirectBox
             text={`Don't have an account?`}

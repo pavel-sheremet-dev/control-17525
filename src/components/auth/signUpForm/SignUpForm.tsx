@@ -5,15 +5,15 @@ import { Formik, FormikHelpers, FormikProps } from 'formik';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import { authOperations, authSelectors } from 'redux/auth';
-import InputField from '../inputField/InputField';
-// import { SignButton } from 'components/reusableComponents/buttons/Buttons.styled';
+import InputField from 'components/forms/inputField/InputField';
 
-import FormState, { formFieldsConfig } from '../FormState';
+import FormState from 'components/forms/formState/FormState';
 import { getValueFromStorage } from '../helpers';
 import { ISignUpState, StorageFormsKeys } from '../types';
 import { FormStyled } from './SignUpForm.styled';
-import InputCheckbox from '../inputCheckbox/InputCheckbox';
+import InputCheckbox from 'components/forms/inputCheckbox/InputCheckbox';
 import { BtnStyled } from 'components/reusableComponents/textBtn/TextBtn.styled';
+import { formFieldsConfig } from 'components/forms/config';
 
 const fieldsOptions = formFieldsConfig.signUp;
 
